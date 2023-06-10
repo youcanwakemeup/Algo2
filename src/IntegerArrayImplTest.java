@@ -11,7 +11,7 @@ public class IntegerArrayImplTest {
 
     @Before
     public void setUp() {
-        integerArray = new IntegerArrayImpl(0);
+        integerArray = new IntegerArrayImpl(1);
     }
     @Test
     public void testAddAndGet() {

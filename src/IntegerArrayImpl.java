@@ -27,9 +27,11 @@ public class IntegerArrayImpl implements IntegerArray {
     @Override
     public Integer add(Integer item) {
         checkIfArgumentIsNull(item);
-        Integer[] newArr = new Integer[arr.length + 1];
-        newArr[arr.length] = item;
-        arr = newArr;
+        int nextNullIndex = arr.length;
+        if (arr[arr.length - 1] != null) {
+            grow();
+        }
+        arr[nextNullIndex] = item;
         return item;
     }
 
@@ -105,7 +107,7 @@ public class IntegerArrayImpl implements IntegerArray {
     @Override
     public boolean contains(Integer item) {
         checkIfArgumentIsNull(item);
-        sortArray();
+        sortArray(arr, arr[0], arr[arr.length - 1]);
         return binarySearch(item) != -1;
     }
 
@@ -195,21 +197,34 @@ public class IntegerArrayImpl implements IntegerArray {
         return newSize;
     }
 
-    private void sortArray() {
-        for (int i = 1; i < arr.length; i++) {
-            int temp = arr[i];
-            int j = i;
-            while (j > 0 && arr[j - 1] >= temp) {
-                arr[j] = arr[j - 1];
-                j--;
-            }
-            arr[j] = temp;
+    private void sortArray(Integer[] arr, int begin, int end) {
+        if (begin < end) {
+            int partitionIndex = partition(arr, begin, end);
+
+            sortArray(arr, begin, partitionIndex - 1);
+            sortArray(arr, partitionIndex + 1, end);
         }
+    }
+
+
+    private static int partition(Integer[] arr, int begin, int end) {
+        int pivot = arr[end];
+        int i = (begin - 1);
+
+        for (int j = begin; j < end; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+
+                CompareSorts.swapElements(arr, i, j);
+            }
+        }
+
+        CompareSorts.swapElements(arr, i + 1, end);
+        return i + 1;
     }
 
     private int binarySearch(Integer item) {
         checkIfArgumentIsNull(item);
-
         int min = 0;
         int max = arr.length - 1;
 
@@ -226,9 +241,14 @@ public class IntegerArrayImpl implements IntegerArray {
                 min = mid + 1;
             }
         }
-
-
         return -1;
+    }
+    private void grow() {
+        double newSize = arr.length * 1.5;
+        int newSizeInt = (int) newSize;
+        Integer[] newArr = new Integer[newSizeInt];
+        System.arraycopy(arr, 0, newArr, 0, arr.length);
+        arr = newArr;
     }
 }
 

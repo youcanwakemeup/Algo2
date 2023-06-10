@@ -1,22 +1,22 @@
 import java.util.Arrays;
 
 public class CompareSorts {
-    private static void swapElements(int[] arr, int indexA, int indexB) {
+    static void swapElements(Integer[] arr, int indexA, int indexB) {
         int tmp = arr[indexA];
         arr[indexA] = arr[indexB];
         arr[indexB] = tmp;
     }
 
-    public static int[] generateRandomArray() {
+    public static Integer[] generateRandomArray() {
         java.util.Random random = new java.util.Random();
-        int[] arr = new int[100000];
+        Integer[] arr = new Integer[100000];
         for (int i = 0; i < arr.length; i++) {
             arr[i] = random.nextInt(100_000) + 100_000;
         }
         return arr;
     }
-    int[] arrayForTests = generateRandomArray();
-    public static void sortInsertion(int[] arr) {
+    Integer[] arrayForTests = generateRandomArray();
+    public static void sortInsertion(Integer[] arr) {
         for (int i = 1; i < arr.length; i++) {
             int temp = arr[i];
             int j = i;
@@ -28,7 +28,7 @@ public class CompareSorts {
         }
     }
 
-    public static void sortSelection(int[] arr) {
+    public static void sortSelection(Integer[] arr) {
         for (int i = 0; i < arr.length - 1; i++) {
             int minElementIndex = i;
             for (int j = i + 1; j < arr.length; j++) {
@@ -40,7 +40,7 @@ public class CompareSorts {
         }
     }
 
-    public static void sortBubble(int[] arr) {
+    public static void sortBubble(Integer[] arr) {
         for (int i = 0; i < arr.length - 1; i++) {
             for (int j = 0; j < arr.length - 1 - i; j++) {
                 if (arr[j] > arr[j + 1]) {
